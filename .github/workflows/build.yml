@@ -1,0 +1,24 @@
+name: Build Windows EXE
+
+on:
+  push:
+    branches: [ main ]
+
+jobs:
+  build:
+    runs-on: windows-latest
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Install MinGW
+        run: choco install mingw -y
+
+      - name: Compile with MinGW
+        run: x86_64-w64-mingw32-g++ main.cpp -mwindows -O2 -o BondCalc.exe
+
+      - name: Upload exe artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: bondcalc-exe
+          path: BondCalc.exe
